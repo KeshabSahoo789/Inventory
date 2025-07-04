@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class CartItem {
 
     @Id
@@ -23,4 +25,5 @@ public class CartItem {
     public double getTotal() {
         return this.quantity * this.price;
     }
+
 }
