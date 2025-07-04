@@ -5,10 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
-@Getter
-@Setter
+
 public class GeneralProduct {
     private String name;
     private String description;
@@ -17,6 +16,13 @@ public class GeneralProduct {
 
     public String getName() {
         return name;
+    }
+
+    public GeneralProduct(String name, String description, String image, double price) {
+        this.name = name;
+        this.description = description;
+        this.image = image;
+        this.price = price;
     }
 
     public void setName(String name) {
