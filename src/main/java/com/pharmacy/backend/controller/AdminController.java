@@ -1,10 +1,7 @@
 package com.pharmacy.backend.controller;
 
-import com.pharmacy.backend.dto.FirebaseLoginRequest;
-import com.pharmacy.backend.dto.FirebaseLoginResponse;
 import com.pharmacy.backend.model.Admin;
 import com.pharmacy.backend.service.AdminService;
-import com.pharmacy.backend.service.FirebaseAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -27,9 +24,6 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @Autowired
-    private FirebaseAuthService firebaseAuthService;
-
     // ✅ Show login page (web)
     @GetMapping("/login")
     public String showLoginForm(Model model) {
@@ -41,13 +35,6 @@ public class AdminController {
     @PostMapping("/custom-login")
     public String loginWeb(@ModelAttribute("admin") Admin admin, Model model) {
         try {
-            // Authenticate with Firebase
-            FirebaseLoginRequest firebaseRequest = new FirebaseLoginRequest();
-            firebaseRequest.setEmail(admin.getEmail());
-            firebaseRequest.setPassword(admin.getPassword());
-            firebaseRequest.setReturnSecureToken(true);
-            firebaseAuthService.loginWithEmail(firebaseRequest);
-
             // Authenticate with MySQL
             Admin dbAdmin = adminService.loginAdmin(admin.getEmail(), admin.getPassword());
 
@@ -65,7 +52,6 @@ public class AdminController {
             return "admin-login";
         }
     }
-
 
     // ✅ Register via Web Form (Thymeleaf)
     @PostMapping("/register")
@@ -86,7 +72,7 @@ public class AdminController {
         return "admin-dashboard";
     }
 
-    // ✅ API login via POSTMAN / Flutter + Firebase Token
+    // ✅ API login via POSTMAN / Flutter (without Firebase)
     @PostMapping("/api/login")
     @ResponseBody
     public ResponseEntity<?> loginApi(@RequestBody Map<String, String> credentials) {
@@ -96,18 +82,10 @@ public class AdminController {
         try {
             Admin admin = adminService.loginAdmin(email, password);
 
-            FirebaseLoginRequest firebaseRequest = new FirebaseLoginRequest();
-            firebaseRequest.setEmail(email);
-            firebaseRequest.setPassword(password);
-            firebaseRequest.setReturnSecureToken(true);
-
-            FirebaseLoginResponse firebaseResponse = firebaseAuthService.loginWithEmail(firebaseRequest);
-
             return ResponseEntity.ok(Map.of(
                     "status", "success",
                     "fullName", admin.getFullName(),
-                    "email", admin.getEmail(),
-                    "firebaseToken", firebaseResponse.getIdToken()
+                    "email", admin.getEmail()
             ));
 
         } catch (Exception e) {

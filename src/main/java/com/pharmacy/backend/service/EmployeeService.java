@@ -1,11 +1,8 @@
 package com.pharmacy.backend.service;
 
-import com.google.firebase.auth.UserRecord;
 import com.pharmacy.backend.dto.EmployeeDto;
 import com.pharmacy.backend.model.Employee;
 import com.pharmacy.backend.repository.EmployeeRepository;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,19 +17,12 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private FirebaseAuthService firebaseAuthService;
-
     @Synchronized
-    public void saveEmployee(EmployeeDto dto) throws Exception {
-
+    public void saveEmployee(EmployeeDto dto) {
 
         if (employeeRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Employee with this email already exists");
         }
-
-        // Firebase
-        firebaseAuthService.createFirebaseUser(dto.getEmail(), dto.getPassword());
 
         // Save to MySQL
         Employee employee = new Employee();
@@ -56,12 +46,12 @@ public class EmployeeService {
         if (emp != null) {
             employeeRepository.delete(emp);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
+
     public Optional<Employee> findByEmail(String email) {
         return employeeRepository.findByEmail(email);
     }
-
 }

@@ -1,7 +1,5 @@
 package com.pharmacy.backend.service;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord.CreateRequest;
+
 import com.pharmacy.backend.model.Admin;
 import com.pharmacy.backend.repository.AdminRepository;
 import lombok.Synchronized;
@@ -16,9 +14,6 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    @Autowired
-    private FirebaseAuth firebaseAuth; // from Firebase Admin SDK
-
     @Synchronized
     public Admin registerAdmin(Admin admin) {
         if (adminRepository.existsByEmail(admin.getEmail())) {
@@ -29,20 +24,9 @@ public class AdminService {
             throw new RuntimeException("Passwords do not match");
         }
 
-        // ✅ Create Firebase user
-        try {
-            CreateRequest request = new CreateRequest()
-                    .setEmail(admin.getEmail())
-                    .setPassword(admin.getPassword());
-            firebaseAuth.createUser(request);
-        } catch (FirebaseAuthException e) {
-            throw new RuntimeException("Firebase registration failed: " + e.getMessage());
-        }
-
-        // ✅ Save in MySQL
+        // ✅ Only save in MySQL now
         return adminRepository.save(admin);
     }
-
 
     @Synchronized
     public Admin loginAdmin(String email, String password) {
@@ -59,6 +43,4 @@ public class AdminService {
             throw new RuntimeException("Admin not found");
         }
     }
-
-
 }
