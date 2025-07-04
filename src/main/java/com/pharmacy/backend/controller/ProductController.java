@@ -80,11 +80,11 @@ public class ProductController {
     @GetMapping("/neurology")
     public String showNeurologyProducts(Model model, HttpSession session) {
         List<GeneralProduct> neurologyProducts = List.of(
-                new GeneralProduct("Levetiracetam", "Used to treat epilepsy and seizures.", "levetiracetam.jpg", 55),
-                new GeneralProduct("Carbamazepine", "For bipolar disorder and seizures.", "carbamazepine.jpg", 60),
-                new GeneralProduct("Phenytoin", "Controls and prevents seizures.", "phenytoin.jpg", 48),
-                new GeneralProduct("Gabapentin", "Treats nerve pain and epilepsy.", "gabapentin.jpg", 42),
-                new GeneralProduct("Donepezil", "Used for Alzheimer’s treatment.", "donepezil.jpg", 70)
+                new GeneralProduct("Levetiracetam", "Used to treat epilepsy and seizures.", "levetiracetam.jpg", 55.0),
+                new GeneralProduct("Carbamazepine", "For bipolar disorder and seizures.", "carbamazepine.jpg", 60.0),
+                new GeneralProduct("Phenytoin", "Controls and prevents seizures.", "phenytoin.jpg", 48.0),
+                new GeneralProduct("Gabapentin", "Treats nerve pain and epilepsy.", "gabapentin.jpg", 42.0),
+                new GeneralProduct("Donepezil", "Used for Alzheimer’s treatment.", "donepezil.jpg", 70.0)
         );
 
         String email = (String) session.getAttribute("employeeEmail");

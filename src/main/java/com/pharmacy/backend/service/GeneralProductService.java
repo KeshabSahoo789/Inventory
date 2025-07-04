@@ -30,7 +30,7 @@ public class GeneralProductService {
         List<GeneralProduct> products = new ArrayList<>();
         products.add(new GeneralProduct("Duphaston", "Hormone for pregnancy and periods", "duphaston.jpg", 120.0));
         products.add(new GeneralProduct("Meprate", "Used to regulate menstrual cycle", "meprate.jpg", 60.0));
-        products.add(new GeneralProduct("Ovastar", "Used in PCOS/PCOD", "ovastar.jpg", 75));
+        products.add(new GeneralProduct("Ovastar", "Used in PCOS/PCOD", "ovastar.jpg", 75.0));
         products.add(new GeneralProduct("Clomid", "Fertility treatment for ovulation", "clomid.jpg", 90.0));
         return products;
     }

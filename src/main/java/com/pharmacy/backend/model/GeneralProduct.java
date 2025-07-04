@@ -1,12 +1,5 @@
 package com.pharmacy.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
-@NoArgsConstructor
 
 public class GeneralProduct {
     private String name;
