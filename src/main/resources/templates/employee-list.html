@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Employee List | Pharma Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/CSS/employee-list.css}" />
+</head>
+<body>
+
+<!-- Back to Dashboard -->
+<a th:href="@{/admin/dashboard}" class="back-button">&larr; Back to Dashboard</a>
+
+<!-- Heading -->
+<h2>Employee List</h2>
+
+<!-- Employee Table -->
+<table>
+  <thead>
+  <tr>
+    <th>Employee ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Joining Date</th>
+    <th>Date of Birth</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="employee : ${employees}">
+    <td th:text="${employee.employeeId}">EMP001</td>
+    <td th:text="${employee.fullName}">Ravi Sharma</td>
+    <td th:text="${employee.email}">ravi@example.com</td>
+    <td th:text="${employee.joiningDate}">2023-02-10</td>
+    <td th:text="${employee.dateOfBirth}">1995-08-14</td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Action Buttons -->
+<!-- Action Buttons -->
+<div class="button-container">
+  <a th:href="@{/employee/add}">
+    <button type="button" class="add-button">Add Employee</button>
+  </a>
+
+  <a th:href="@{/employee/deleteemp}">
+    <button type="button" class="delete-button">Delete Employee</button>
+  </a>
+</div>
+
+
+
+
+
+</body>
+</html>

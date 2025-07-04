@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Medicines | Pharmacy</title>
+    <link rel="stylesheet" th:href="@{/CSS/general.css}">
+</head>
+<body>
+<div class="background-overlay"></div>
+
+<header>
+    <a th:href="@{/employee/dashboard}" class="back-btn">⬅ Back to Dashboard</a>
+
+    <div class="cart-icon">
+        <a th:href="@{/employee/cart}">
+            <span>🛒</span>
+            <span class="cart-count">0</span>
+        </a>
+    </div>
+
+    <h1>General Medicines</h1>
+</header>
+
+<main class="product-list">
+    <div class="product-item" th:each="product : ${generalProducts}">
+        <div class="product-img">
+            <img th:src="@{/images/{img}(img=${product.image})}" th:alt="${product.name}">
+        </div>
+
+        <div class="product-details">
+            <div class="product-info">
+                <h3 th:text="${product.name}">Paracetamol</h3>
+                <p th:text="${product.description}">Used for fever and pain relief.</p>
+            </div>
+            <div class="product-price" th:text="'₹' + ${product.price}">₹25</div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); addToCart(this);" class="product-action">
+            <!-- ❌ Removed product.id, using only productName -->
+            <input type="hidden" name="productName" th:value="${product.name}" />
+            <input type="hidden" name="price" th:value="${product.price}" />
+            <input type="hidden" name="quantity" class="qty-submit"
+                   th:value="${(cartQuantities != null and cartQuantities[product.name] != null) ? cartQuantities[product.name] : 1}" />
+            <input type="hidden" name="email" th:value="${employeeEmail}" />
+
+            <div class="quantity-selector"
+                 th:classappend="${(cartQuantities != null and cartQuantities[product.name] != null)} ? 'active' : ''">
+                <button type="button" class="qty-btn minus">-</button>
+                <input type="number" min="1" class="qty-input"
+                       th:value="${(cartQuantities != null and cartQuantities[product.name] != null) ? cartQuantities[product.name] : 1}" />
+                <button type="button" class="qty-btn plus">+</button>
+            </div>
+
+            <button type="submit" class="cart-btn"
+                    th:text="${(cartQuantities != null and cartQuantities[product.name] != null) ? 'Update' : 'Add to Cart'}">
+                Add to Cart
+            </button>
+        </form>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.product-item').forEach(item => {
+            const plusBtn = item.querySelector('.qty-btn.plus');
+            const minusBtn = item.querySelector('.qty-btn.minus');
+            const qtyInput = item.querySelector('.qty-input');
+            const qtySubmit = item.querySelector('.qty-submit');
+            const cartBtn = item.querySelector('.cart-btn');
+            const qtyDiv = item.querySelector('.quantity-selector');
+
+            plusBtn.addEventListener('click', () => {
+                let val = parseInt(qtyInput.value) || 1;
+                val++;
+                qtyInput.value = val;
+                qtySubmit.value = val;
+                qtyDiv.classList.add('active');
+                cartBtn.textContent = 'Update';
+            });
+
+            minusBtn.addEventListener('click', () => {
+                let val = parseInt(qtyInput.value) || 1;
+                if (val > 1) {
+                    val--;
+                    qtyInput.value = val;
+                    qtySubmit.value = val;
+                    cartBtn.textContent = 'Update';
+                }
+            });
+        });
+    });
+
+    function addToCart(form) {
+        const formData = new FormData(form);
+        fetch('/employee/cart/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData)
+        }).then(res => {
+            if (res.ok) {
+                alert("✅ Added to cart!");
+            } else {
+                alert("❌ Failed to add to cart!");
+            }
+        });
+    }
+</script>
+</body>
+</html>

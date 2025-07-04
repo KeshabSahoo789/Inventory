@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Delete Employee</title>
+  <link rel="stylesheet" th:href="@{/CSS/employee-delete.css}" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- Overlay Background -->
+<div class="overlay">
+  <!-- Delete Form Popup -->
+  <div class="delete-form-popup">
+    <h2>Delete Employee</h2>
+    <p>Enter the <strong>Employee ID</strong> (e.g., <code>EMP1234</code>) you want to delete:</p>
+
+    <form th:action="@{/employee/delete}" method="post">
+      <input type="text" name="employeeId" placeholder="Employee ID (e.g. EMP1234)" required />
+      <div class="button-group">
+        <button type="submit" class="delete-btn">Confirm Delete</button>
+        <a th:href="@{/employee/list}" class="cancel-btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

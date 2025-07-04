@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Pharmacy System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../CSS/admin-dashboard.css" />
+</head>
+<body class="dark-mode">
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="#">Profile</a></li>
+    <li><a href="#">Edit Profile</a></li>
+    <li><a href="#">Dark/Light Mode</a></li>
+    <li><a href="#">Colleague</a></li>
+    <li><a href="#">Ad Manager</a></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <!-- Hamburger -->
+  <div class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Center Nav Links -->
+  <ul class="nav-links">
+    <!-- ✅ FIXED LINK -->
+    <li><a th:href="@{/employee/list}">Employee</a></li>
+    <li><a th:href="@{/admin/products}">Inventory</a></li>
+    <li><a href="#">Product List</a></li>
+    <li><a href="#">Warnings</a></li>
+    <li><a href="#">Sales Report</a></li>
+  </ul>
+
+  <!-- Logo on Right -->
+  <div class="logo-container">
+    <span class="logo">PharmaAdmin</span>
+  </div>
+</nav>
+
+<!-- Body -->
+<div class="dashboard-body">
+  <section class="product-section">
+    <h2>Upcoming Products</h2>
+    <div class="product-gallery">
+      <img src="../images/upcoming1.jpg" alt="Upcoming Product">
+      <img src="../images/upcoming2.jpg" alt="Upcoming Product">
+    </div>
+  </section>
+
+  <section class="product-section">
+    <h2>Trending Products</h2>
+    <div class="product-gallery">
+      <img src="../images/trending1.jpg" alt="Trending Product">
+      <img src="../images/trending2.jpg" alt="Trending Product">
+    </div>
+  </section>
+</div>
+
+<!-- JavaScript for Sidebar Toggle -->
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+    document.body.classList.toggle('sidebar-open');
+  });
+</script>
+
+</body>
+</html>

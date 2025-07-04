@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login | Pharmacy</title>
+  <link rel="stylesheet" th:href="@{/CSS/admin-login.css}" />
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Toggle Tabs -->
+  <div class="form-toggle">
+    <button type="button" onclick="showLogin()">Login</button>
+    <button type="button" onclick="showRegister()">Register</button>
+  </div>
+
+  <!-- Login Form -->
+  <form th:action="@{/admin/custom-login}" method="post" th:object="${admin}" id="loginForm">
+    <h2>Login</h2>
+    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+    <input type="email" th:field="*{email}" placeholder="Email" required />
+    <input type="password" th:field="*{password}" placeholder="Password" required />
+    <button type="submit">Login</button>
+  </form>
+
+  <!-- Register Form -->
+  <form th:action="@{/admin/register}" method="post" th:object="${admin}" id="registerForm" class="hidden">
+    <h2>Register</h2>
+    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+    <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+    <input type="text" th:field="*{fullName}" placeholder="Full Name" required />
+    <input type="tel" th:field="*{phoneNumber}" placeholder="Phone Number" required />
+    <input type="email" th:field="*{email}" placeholder="Email" required />
+    <input type="number" th:field="*{age}" placeholder="Age" required />
+    <input type="text" th:field="*{username}" placeholder="Username" required />
+    <input type="password" th:field="*{password}" placeholder="Password" required />
+    <input type="password" th:field="*{confirmPassword}" placeholder="Confirm Password" required />
+    <button type="submit">Register</button>
+  </form>
+
+
+</div>
+
+<script>
+  function showLogin() {
+    document.getElementById('loginForm').classList.remove('hidden');
+    document.getElementById('registerForm').classList.add('hidden');
+  }
+
+  function showRegister() {
+    document.getElementById('registerForm').classList.remove('hidden');
+    document.getElementById('loginForm').classList.add('hidden');
+  }
+</script>
+
+</body>
+</html>

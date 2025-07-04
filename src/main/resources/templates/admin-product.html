@@ -1,0 +1,43 @@
+<!-- admin-product.html (Thymeleaf template) -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Inventory</title>
+    <link th:href="@{/CSS/admin-product.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <h1>Admin Inventory Management</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}">1</td>
+            <td th:text="${product.name}">Paracetamol</td>
+            <td th:text="${product.category}">General</td>
+            <td>
+                <span th:text="${product.quantityInStock}">100</span>
+            </td>
+            <td>
+                <form th:action="@{/admin/products/update}" method="post">
+                    <input type="hidden" name="id" th:value="${product.id}" />
+                    <input type="number" name="quantity" min="0" th:value="${product.quantityInStock}" required />
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

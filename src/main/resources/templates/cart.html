@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Cart</title>
+  <link rel="stylesheet" th:href="@{/CSS/cart.css}">
+</head>
+<body>
+<div class="cart-container">
+  <h2>Cart for <span th:text="${employeeEmail}">user@example.com</span></h2>
+
+  <div th:if="${#lists.isEmpty(cartItems)}">
+    <p>Your cart is empty.</p>
+  </div>
+
+  <div th:unless="${#lists.isEmpty(cartItems)}">
+    <div class="cart-item" th:each="item : ${cartItems}"
+         th:data-name="${item.productName}"
+         th:data-price="${item.price}"
+         th:data-qty="${item.quantity}">
+
+      <span class="item-name" th:text="${item.productName}">Paracetamol</span>
+
+      <div class="quantity">
+        <button class="qty-minus">-</button>
+        <span class="qty-text" th:text="${item.quantity}">1</span>
+        <button class="qty-plus">+</button>
+      </div>
+
+      <span class="price" th:text="'₹' + ${item.price}">₹50.00</span>
+      <span class="total" th:text="'₹' + (${item.price} * ${item.quantity})">₹100.00</span>
+    </div>
+
+    <div class="subtotal">
+      Subtotal: <strong id="subtotal">₹0.00</strong>
+    </div>
+
+    <div class="taxes">
+      Taxes (GST 18%): <strong id="tax">₹0.00</strong>
+    </div>
+
+    <div class="total-payable">
+      Total Payable: <strong id="total">₹0.00</strong>
+    </div>
+
+    <form th:action="@{/employee/checkout}" method="get">
+      <button class="checkout-btn" type="submit">Proceed to Checkout</button>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cartItems = document.querySelectorAll('.cart-item');
+
+    function recalculateTotal() {
+      let subtotal = 0;
+      cartItems.forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.querySelector(".qty-text").textContent);
+        subtotal += price * qty;
+      });
+
+      document.getElementById("subtotal").textContent = `₹${subtotal.toFixed(2)}`;
+      const tax = subtotal * 0.18;
+      document.getElementById("tax").textContent = `₹${tax.toFixed(2)}`;
+      document.getElementById("total").textContent = `₹${(subtotal + tax).toFixed(2)}`;
+    }
+
+    function updateServer(productName, quantity) {
+      fetch('/api/cart/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          productName: productName,
+          quantity: quantity
+        })
+      }).then(response => {
+        if (!response.ok) {
+          console.error("❌ Failed to update cart on server.");
+        }
+      }).catch(error => {
+        console.error("❌ Network error:", error);
+      });
+    }
+
+    cartItems.forEach(item => {
+      const minus = item.querySelector(".qty-minus");
+      const plus = item.querySelector(".qty-plus");
+      const qtyText = item.querySelector(".qty-text");
+      const total = item.querySelector(".total");
+
+      const price = parseFloat(item.dataset.price);
+      const name = item.dataset.name;
+
+      plus.addEventListener("click", () => {
+        let qty = parseInt(qtyText.textContent);
+        qty++;
+        qtyText.textContent = qty;
+        total.textContent = `₹${(price * qty).toFixed(2)}`;
+        updateServer(name, qty);
+        recalculateTotal();
+      });
+
+      minus.addEventListener("click", () => {
+        let qty = parseInt(qtyText.textContent);
+        if (qty > 1) {
+          qty--;
+          qtyText.textContent = qty;
+          total.textContent = `₹${(price * qty).toFixed(2)}`;
+          updateServer(name, qty);
+        } else {
+          item.remove();
+          updateServer(name, 0); // Remove from DB
+        }
+        recalculateTotal();
+      });
+    });
+
+    document.querySelector('.checkout-btn')?.addEventListener('click', () => {
+      window.location.href = '/employee/checkout';
+    });
+
+    recalculateTotal();
+  });
+</script>
+</body>
+</html>

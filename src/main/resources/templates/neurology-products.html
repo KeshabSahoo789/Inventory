@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neurology Medicines | Pharmacy</title>
+    <link rel="stylesheet" th:href="@{/CSS/general.css}">
+</head>
+<body>
+<div class="background-overlay"></div>
+
+<header>
+    <a th:href="@{/employee/dashboard}" class="back-btn">⬅ Back to Dashboard</a>
+
+    <div class="cart-icon">
+        <a th:href="@{/employee/cart}">
+            <span>🛒</span>
+            <span class="cart-count">0</span>
+        </a>
+    </div>
+
+    <h1>Neurology Medicines</h1>
+</header>
+
+<main class="product-list">
+    <div class="product-item" th:each="product : ${neurologyProducts}">
+        <div class="product-img">
+            <img th:src="@{/images/{img}(img=${product.image})}" th:alt="${product.name}">
+        </div>
+
+        <div class="product-details">
+            <div class="product-info">
+                <h3 th:text="${product.name}">Levetiracetam</h3>
+                <p th:text="${product.description}">Used to treat epilepsy and seizures.</p>
+            </div>
+            <div class="product-price" th:text="'₹' + ${product.price}">₹55</div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); addToCart(this);" class="product-action">
+            <div class="quantity-selector">
+                <button type="button" class="qty-btn minus">-</button>
+                <input type="number" value="1" min="1" class="qty-input" />
+                <button type="button" class="qty-btn plus">+</button>
+            </div>
+
+            <input type="hidden" name="productName" th:value="${product.name}" />
+            <input type="hidden" name="price" th:value="${product.price}" />
+            <input type="hidden" name="quantity" class="qty-submit" value="1" />
+            <input type="hidden" name="email" th:value="${session.email}" />
+
+            <button type="submit" class="cart-btn">Add to Cart</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.product-item').forEach(item => {
+        const plusBtn = item.querySelector('.qty-btn.plus');
+        const minusBtn = item.querySelector('.qty-btn.minus');
+        const qtyInput = item.querySelector('.qty-input');
+        const qtySubmit = item.querySelector('.qty-submit');
+        const actionDiv = item.querySelector('.product-action');
+        const cartBtn = item.querySelector('.cart-btn');
+
+        cartBtn.addEventListener('click', () => {
+          actionDiv.classList.add("active");
+        });
+
+        plusBtn.addEventListener('click', () => {
+          let val = parseInt(qtyInput.value) || 1;
+          qtyInput.value = ++val;
+          qtySubmit.value = val;
+        });
+
+        minusBtn.addEventListener('click', () => {
+          let val = parseInt(qtyInput.value) || 1;
+          if (val > 1) {
+            qtyInput.value = --val;
+            qtySubmit.value = val;
+          }
+        });
+      });
+    });
+
+    function addToCart(form) {
+      const formData = new FormData(form);
+      fetch('/employee/cart/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData)
+      }).then(res => {
+        if (res.ok) {
+          alert("✅ Added to cart!");
+        } else {
+          alert("❌ Failed to add to cart!");
+        }
+      });
+    }
+</script>
+</body>
+</html>

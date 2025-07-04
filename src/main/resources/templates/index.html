@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome | Pharmacy System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/CSS/index.css}">
+</head>
+<body>
+
+<!-- ✅ Fullscreen Background Video -->
+<video autoplay muted loop id="bgVideo">
+  <source th:src="@{/videos/background.mp4}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<!-- Optional: Background Bubbles -->
+<div class="background-bubble"></div>
+<div class="background-bubble"></div>
+<div class="background-bubble"></div>
+
+<!-- ✅ Main White Card -->
+<div class="container">
+  <h1>Welcome to the Pharmacy System</h1>
+  <p>Select your role to continue</p>
+
+  <div class="role-options">
+    <div class="role-card" th:onclick="'location.href=\'' + @{/admin/login} + '\''">
+      <img th:src="@{/images/admin.jpg}" alt="Admin Icon">
+      <h3>Admin</h3>
+    </div>
+
+    <div class="role-card" th:onclick="'location.href=\'' + @{/employee/login} + '\''">
+      <img th:src="@{/images/employee.png}" alt="Employee Icon">
+      <h3>Employee</h3>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

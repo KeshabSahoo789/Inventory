@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy Dashboard</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS Path: Note the thymeleaf path -->
+  <link rel="stylesheet" th:href="@{/css/employee-dashboard.css}" />
+</head>
+
+<body th:style="'background: url(' + @{/images/employee-background.jpg} + ') no-repeat center center/cover;'">
+
+<div class="background-container">
+  <div class="overlay"></div>
+  <div class="content-container">
+    <!-- Header Bar -->
+    <header class="header">
+      <div class="logo">
+        <h1>Pharmacy Dashboard</h1>
+      </div>
+      <nav class="nav-links">
+        <a th:href="@{/employee/products/general}" class="nav-link">General</a>
+        <a th:href="@{/employee/products/cardiology}" class="nav-link">Cardiology</a>
+        <a th:href="@{/employee/products/gyn}" class="nav-link">Gynecology</a>
+        <a th:href="@{/employee/products/neurology}" class="nav-link">Neurology</a>
+      </nav>
+      <div class="cart-icon">
+        <a th:href="@{/employee/cart}">
+          <span>🛒</span>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Example for ONE section only: Apply same Thymeleaf binding where needed -->
+    <main class="main-content">
+      <!-- Example Section -->
+      <section id="general" class="department-section">
+        <h2 class="department-title">
+          <a th:href="@{/employee/products/general}">General Medicines</a>
+        </h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/paracetamol.jpg}">Paracetamol</a></h3>
+            <p class="product-use">Acid reflux, stomach ulcers</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/amoxillini.jpeg}">Amoxicillin</a></h3>
+            <p class="product-use">Antibiotic for bacterial infections</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/cetrizine.jpeg}">Cetirizine</a></h3>
+            <p class="product-use">Allergy relief</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/pentoprazole.jpeg}">Pantoprazole</a></h3>
+            <p class="product-use">Acid reflux, stomach ulcers</p>
+          </div>
+          <!-- Other product cards... -->
+        </div>
+      </section>
+      <section id="cardiology" class="department-section">
+        <h2 class="department-title"><a href="/employee/products/cardiology">Cardiology Medicines</a></h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/pentoprazole.jpeg}">Atorvastatin</a></h3>
+            <p class="product-use">Cholesterol management</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/pentoprazole.jpeg}">Amlodipine</a></h3>
+            <p class="product-use">High blood pressure</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/pentoprazole.jpeg}">Aspirin</a></h3>
+            <p class="product-use">Blood thinner, pain relief</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a th:href="@{/images/pentoprazole.jpeg}">Metoprolol</a></h3>
+            <p class="product-use">Heart conditions, high blood pressure</p>
+          </div>
+        </div>
+      </section>
+      <section id="gynecology" class="department-section">
+        <h2 class="department-title"><a href="/employee/products/gynecology">Gynecology Medicines</a></h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/9">Progesterone</a></h3>
+            <p class="product-use">Hormonal imbalance</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/10">Misoprostol</a></h3>
+            <p class="product-use">Uterine bleeding</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/11">Diflucan</a></h3>
+            <p class="product-use">Yeast infections</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/12">Estradiol</a></h3>
+            <p class="product-use">Hormone replacement therapy</p>
+          </div>
+        </div>
+      </section>
+      <section id="neurology" class="department-section">
+        <h2 class="department-title"><a href="/employee/products/neurology">Neurology Medicines</a></h2>
+        <div class="product-grid">
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/13">Gabapentin</a></h3>
+            <p class="product-use">Neuropathic pain</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/14">Alprazolam</a></h3>
+            <p class="product-use">Anxiety, panic disorders</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/15">Topiramate</a></h3>
+            <p class="product-use">Epilepsy, migraine prevention</p>
+          </div>
+          <div class="product-card">
+            <h3 class="product-name"><a href="/employee/product/16">Donepezil</a></h3>
+            <p class="product-use">Alzheimer's disease</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
